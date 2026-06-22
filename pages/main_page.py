@@ -1,6 +1,4 @@
 import allure
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from pages.base_page import BasePage
 from locators.main_page_locators import main_page_header, profile_page_link, order_list_page_link, fluorescent_bun, ingredient_details_modal_header, modal_close_button, burger_section, spicy_sause, fluorescent_bun_counter, order_number, create_order_button
@@ -35,9 +33,7 @@ class MainPage(BasePage):
 
     @allure.step('Ожидаем закрытия модального окна ингредиента')
     def wait_for_close_ingredient_modal(self):
-        return WebDriverWait(self.driver, 5).until(
-            EC.invisibility_of_element_located(ingredient_details_modal_header)
-        )
+        return self.wait_for_invisibility_of_element(ingredient_details_modal_header)
     
     @allure.step('Добавляем ингредиент в заказ')
     def add_ingredient_to_order(self, ingredient):
@@ -69,9 +65,8 @@ class MainPage(BasePage):
 
     @allure.step('Получаем номер заказа')
     def get_order_number(self):
-        WebDriverWait(self.driver, 10).until(
-            lambda d: d.find_element(*order_number).text.strip() != "9999"
-        )
+        self.wait_for_change_element_text(order_number, '9999')
+
         return self.find_element(order_number).text
     
     @allure.step('Создаём заказ и возвращаем его номер')

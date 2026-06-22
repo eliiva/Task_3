@@ -59,3 +59,21 @@ class BasePage:
     @allure.step('Получаем номера заказов')
     def get_orders_numbers(self, element_locator):
         return self.driver.find_elements(*element_locator)
+    
+    @allure.step('Дожидаемся скрытия элемента')
+    def wait_for_invisibility_of_element(self, element_locator):
+        return WebDriverWait(self.driver, 5).until(
+            EC.invisibility_of_element_located(element_locator)
+        )
+
+    @allure.step('Дожидаемся смены текста элемента')
+    def wait_for_change_element_text(self, element_locator, expected_to_change_text):
+        WebDriverWait(self.driver, 10).until(
+            lambda d: d.find_element(*element_locator).text.strip() != expected_to_change_text
+        )
+
+    @allure.step('Дожидаемся нужного значения в элементе')
+    def wait_for_expected_value(self, element_locator, expected_value):
+        WebDriverWait(self.driver, 10).until(
+            lambda d: expected_value in d.find_element(*element_locator).text.replace("\n", "").replace(" ", "")
+        )

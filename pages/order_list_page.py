@@ -1,5 +1,4 @@
 import allure
-from selenium.webdriver.support.ui import WebDriverWait
 from pages.base_page import BasePage
 from locators.order_list_page_locators import order_list_page_header, first_order_in_list_block, order_details_block, order_in_list_number, all_orders_counter, today_ordesr_counter, constructor_link, order_in_work
 
@@ -40,9 +39,7 @@ class OrderListPage(BasePage):
 
     @allure.step('Получаем номер заказа в работе')
     def get_in_work_order_number(self, expected_number):
-        WebDriverWait(self.driver, 10).until(
-            lambda d: expected_number in d.find_element(*order_in_work).text.replace("\n", "").replace(" ", "")
-        )
+        self.wait_for_expected_value(order_in_work, expected_number)
         raw_text = self.driver.find_element(*order_in_work).text
 
         return raw_text.replace("\n", "").replace(" ", "")

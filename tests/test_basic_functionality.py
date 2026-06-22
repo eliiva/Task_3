@@ -1,7 +1,7 @@
 import allure
 from pages.login_page import LoginPage
 from pages.main_page import MainPage
-from urls import login_page_url, main_page_url, order_list_page_url
+from urls import login_page_url, base_url, order_list_page_url
 
 class TestBasicFunctionality:
     @allure.title('Проверка редиректа на страницу конструктора')
@@ -13,12 +13,12 @@ class TestBasicFunctionality:
         login_page.wait_for_load_login_page()
         login_page.click_constructor_link()
 
-        assert login_page.wait_for_url_change_to(main_page_url)
+        assert login_page.wait_for_url_change_to(base_url)
 
     @allure.title('Проверка редиректа в ленту заказов')
     @allure.description('На главной странице кликаем на Лента заказов и проверяем, что произошёл редирект в ленту заказов')
     def test_redirect_to_order_list_page(self, driver):
-        driver.get(main_page_url)
+        driver.get(base_url)
 
         main_page = MainPage(driver)
         main_page.wait_for_load_main_page()
@@ -29,7 +29,7 @@ class TestBasicFunctionality:
     @allure.title('Проверка отображения модального окна ингредиента')
     @allure.description('Кликаем на ингредиент и проверяем, что отобразилось модальное окно с деталями ингредиента')
     def test_show_ingredient_details_modal(self, driver):
-        driver.get(main_page_url)
+        driver.get(base_url)
 
         main_page = MainPage(driver)
         main_page.wait_for_load_main_page()
@@ -40,7 +40,7 @@ class TestBasicFunctionality:
     @allure.title('Проверка закрытия модального окна ингредиента')
     @allure.description('Кликаем на крестик в модальном окне ингредиента и проверяем, что оно закрылось')
     def test_hide_ingredient_details_modal(self, driver):
-        driver.get(main_page_url)
+        driver.get(base_url)
 
         main_page = MainPage(driver)
         main_page.wait_for_load_main_page()
@@ -53,7 +53,7 @@ class TestBasicFunctionality:
     @allure.title('Проверка увеличения каунтера ингредиента')
     @allure.description('Добавляем ингредиент в заказ и проверяем, что увеличивается каунтер данного ингредиента')
     def test_add_ingredient_to_order_counter_increased(self, driver):
-        driver.get(main_page_url)
+        driver.get(base_url)
 
         main_page = MainPage(driver)
         main_page.wait_for_load_main_page()
