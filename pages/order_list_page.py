@@ -40,6 +40,6 @@ class OrderListPage(BasePage):
     @allure.step('Получаем номер заказа в работе')
     def get_in_work_order_number(self, expected_number):
         self.wait_for_expected_value(order_in_work, expected_number)
-        raw_text = self.driver.find_element(*order_in_work).text
+        raw_text = self.find_element(order_in_work).text
 
         return raw_text.replace("\n", "").replace(" ", "")
